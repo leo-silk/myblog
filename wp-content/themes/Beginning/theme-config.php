@@ -2,7 +2,7 @@
 /**
  * 主题名称
  */
-if( !defined( 'THEME_NAME' ) ) define( 'THEME_NAME', wp_get_theme()->get( 'Name' ) );
+if( !defined( 'THEME_NAME' ) ) define( 'THEME_NAME', 'Beginning' );
 
 /**
  * 主题别名
@@ -10,9 +10,9 @@ if( !defined( 'THEME_NAME' ) ) define( 'THEME_NAME', wp_get_theme()->get( 'Name'
 if( !defined( 'THEME_SLUG' ) ) define( 'THEME_SLUG', trim( THEME_NAME ) );
 
 /**
- * 主题版本
+ * 主题数据库版本
  */
-if( !defined( 'THEME_VERSION' ) ) define( 'THEME_VERSION', wp_get_theme()->get( 'Version' ) );
+if( !defined( 'THEME_DB_VERSION' ) ) define( 'THEME_DB_VERSION', 12 );
 
 /**
  * 主题设置数据库字段名

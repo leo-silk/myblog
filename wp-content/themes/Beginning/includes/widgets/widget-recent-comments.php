@@ -1,6 +1,6 @@
 <?php  
 /**
- * 小工具：评论
+ * 小工具：评论
  */
 class Bing_widget_recent_comments extends WP_Widget{
 
@@ -75,7 +75,7 @@ class Bing_widget_recent_comments extends WP_Widget{
 	}
 
 	//保存设置选项
-	function update( $new_instance ){
+	function update( $new_instance, $old_instance ){
 		$instance = array();
 		
 		//标题

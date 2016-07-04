@@ -52,7 +52,10 @@ function Bing_slider(){
  * 获取幻灯片内容查询
  */
 function Bing_slider_query(){
-	$query_args = array( 'posts_per_page' => Bing_mpanel( 'slider_home_number' ) );
+	$query_args = array(
+		'posts_per_page'      => Bing_mpanel( 'slider_home_number' ),
+		'ignore_sticky_posts' => true
+	);
 	switch( $query = Bing_mpanel( 'slider_home_query' ) ){
 		case 'sticky':
 			$query_args['post__in'] = get_option( 'sticky_posts' );

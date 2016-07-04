@@ -90,7 +90,7 @@ body,
 	line-height: 22px;
 }
 
-#tinymce img {
+#tinymce img:not(.wp-more-tag) {
 	max-width: 100%;
 	height: auto;
 	border: 1px solid #E6E6EB;
@@ -106,7 +106,7 @@ body,
 	-o-transition-property: border-color, box-shadow;
 }
 
-#tinymce img:hover {
+#tinymce img:not(.wp-more-tag):hover {
 	border-color: #2D6DCC;
 	box-shadow: 0 0 2px #2D6DCC;
 	-moz-box-shadow: 0 0 2px #2D6DCC;

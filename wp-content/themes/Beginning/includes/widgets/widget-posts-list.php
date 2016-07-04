@@ -1,6 +1,6 @@
 <?php
 /**
- * 小工具：文章
+ * 小工具：文章
  */
 class Bing_widget_posts_list extends WP_Widget{
 
@@ -58,7 +58,7 @@ class Bing_widget_posts_list extends WP_Widget{
 	}
 
 	//保存设置选项
-	function update( $new_instance ){
+	function update( $new_instance, $old_instance ){
 		$instance = array();
 		
 		//标题

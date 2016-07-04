@@ -4,7 +4,7 @@
  */
 function Bing_style(){
 	if( !has_action( 'css' ) ) return;
-	echo '<style id="' . esc_attr( THEME_SLUG ) . '-css">';
+	echo '<style id="theme-css">';
 		do_action( 'css' );
 	echo '</style>';
 }
@@ -18,7 +18,7 @@ add_action( 'wp_head', 'Bing_style', 12 );
 function Bing_editor_style(){
 	header( 'Content-type: text/css' );
 	ob_start();
-		include( get_template_directory() . '/css/editor-style.css' );
+		readfile( get_template_directory() . '/css/editor-style.css' );
 		do_action( 'editor_css' );
 	wp_die( ob_get_clean() );
 }

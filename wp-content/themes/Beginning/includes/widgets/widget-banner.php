@@ -1,6 +1,6 @@
 <?php  
 /**
- * 小工具：广告
+ * 小工具：广告
  */
 class Bing_widget_banner extends WP_Widget{
 
@@ -31,7 +31,7 @@ class Bing_widget_banner extends WP_Widget{
 	}
 
 	//保存设置选项
-	function update( $new_instance ){
+	function update( $new_instance, $old_instance ){
 		$instance = array();
 		
 		//标题

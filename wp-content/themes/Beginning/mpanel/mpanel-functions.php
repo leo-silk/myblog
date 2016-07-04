@@ -144,10 +144,10 @@ class Bing_mpanel{
 		wp_register_script( 'mpanel-cxcalendar', $url . '/js/cxcalendar.js', array( 'mpanel-jquery-ui' ) );
 
 		//Style
-		wp_enqueue_style( 'mpanel-style', $url . '/css/style.css', array( 'wp-color-picker', 'mpanel-switchery', 'mpanel-cxcalendar' ), THEME_VERSION );
+		wp_enqueue_style( 'mpanel-style', $url . '/css/style.css', array( 'wp-color-picker', 'mpanel-switchery', 'mpanel-cxcalendar' ), THEME_DB_VERSION );
 
 		//Base
-		wp_enqueue_script( 'mpanel-base', $url . '/js/base.js', array( 'jquery', 'wp-color-picker', 'mpanel-switchery', 'mpanel-cxcalendar' ), THEME_VERSION, true );
+		wp_enqueue_script( 'mpanel-base', $url . '/js/base.js', array( 'jquery', 'wp-color-picker', 'mpanel-switchery', 'mpanel-cxcalendar' ), THEME_DB_VERSION, true );
 		wp_localize_script( 'mpanel-base', 'mpanel_base_args', array( 'admin_ajax' => admin_url( 'admin-ajax.php' ), 'list_repeat_error' => __( '列表不能重复', 'Bing' ) ) );
 
 		//Media

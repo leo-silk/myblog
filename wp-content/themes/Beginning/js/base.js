@@ -412,4 +412,4 @@
 
 	} )();
 
-} )( jQuery, document, window, Beginning_base_args );
+} )( jQuery, document, window, theme_base_args );

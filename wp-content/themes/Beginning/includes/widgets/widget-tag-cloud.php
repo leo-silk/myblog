@@ -1,6 +1,6 @@
 <?php  
 /**
- * 小工具：标签云
+ * 小工具：标签云
  */
 class Bing_widget_tag_cloud extends WP_Widget{
 
@@ -45,7 +45,7 @@ class Bing_widget_tag_cloud extends WP_Widget{
 	}
 
 	//保存设置选项
-	function update( $new_instance ){
+	function update( $new_instance, $old_instance ){
 		$instance = array();
 		
 		//标题

@@ -5,15 +5,25 @@
 function Bing_theme_auto_update( $update ){
 	static $update_data;
 	if( !isset( $update_data ) ){
+		$theme_version = wp_get_theme()->get( 'Version' );
 		$delete_update_content = true;
 		$options = array(
 			'timeout' => defined( 'DOING_CRON' ) && DOING_CRON ? 30 : 5,
 			'body'    => array(
 				'url'        => home_url(),
 				'name'       => get_bloginfo( 'name' ),
-				'version'    => THEME_VERSION,
+				'version'    => $theme_version,
+				'db_version' => get_option( get_stylesheet() . '_db_version' ),
 				'wp_version' => $GLOBALS['wp_version'],
-				'locale'     => get_locale()
+				'locale'     => get_locale(),
+
+				//统计一下大家是否有更改主题文件夹名字的习惯 ㄟ(≧◇≦)ㄏ
+				'statistics_310_stylesheet' => get_stylesheet(),
+				'statistics_310_template'   => get_template(),
+				'statistics_310_slug'       => THEME_SLUG,
+
+				'statistics_310_stylesheet_changed' => get_stylesheet() != THEME_SLUG,
+				'statistics_310_template_changed'   => get_template()   != THEME_SLUG
 			)
 		);
 		$response = wp_remote_post( THEME_API_URL . '/update-check/', $options );
@@ -21,7 +31,7 @@ function Bing_theme_auto_update( $update ){
 		$update_data = false;
 		$result = json_decode( wp_remote_retrieve_body( $response ) );
 		if( empty( $result->version ) ) return $update;
-		if( version_compare( $result->version, THEME_VERSION, '>' ) ){
+		if( version_compare( $result->version, $theme_version, '>' ) ){
 			$update_data = array(
 				'theme'       => get_stylesheet(),
 				'new_version' => $result->version,
@@ -57,11 +67,62 @@ add_action( 'after_switch_theme', 'Bing_theme_activate_update_check' );
  * 保存主题版本
  */
 function Bing_save_theme_version(){
-	if( ( $version = get_option( THEME_SLUG . '_version' ) ) === false ) do_action( 'start_theme' );
-	elseif( version_compare( $version, THEME_VERSION, '<' ) ) do_action( 'theme_update', $version, THEME_VERSION );
-	update_option( THEME_SLUG . '_version', THEME_VERSION );
+	$version    = get_option( THEME_SLUG . '_version' );
+	$db_version = get_option( get_stylesheet() . '_db_version', 0 );
+
+	if( !$db_version ){
+		if( $version ){
+			//把 3.0 及之前版本存储的版本号，转换成新的数据库版本号
+			$db_version = Bing_translate_theme_db_version( $version );
+			add_option( get_stylesheet() . '_db_version', $db_version );
+		}else{
+			do_action( 'start_theme' );
+		}
+	}
+
+	if( $db_version == THEME_DB_VERSION )
+		return;
+
+	Bing_upgrade_theme();
+
+	if( $version )
+		do_action( 'theme_update', $version, wp_get_theme()->get( 'Version' ) );
 }
 add_action( 'init', 'Bing_save_theme_version', 16 );
+
+/**
+ * 根据主题版本号计算对应的数据库版本号
+ *
+ * 只适用于计算主题 3.0 以及之前版本的数据库版本号，否则一律返回 3.0 主题的数据库版本号。
+ */
+function Bing_translate_theme_db_version( $version ){
+	$old_versions = array(
+		'1.0',
+		'1.1',
+		'1.2',
+		'1.2.1',
+		'1.3',
+		'1.3.1',
+		'2.0',
+		'2.0.1',
+		'2.1',
+		'3.0'
+	);
+
+	$db_version = 1;
+	foreach( $old_versions as $old_version ){
+		if( version_compare( $version, $old_version, '<=' ) ){
+			if( !in_array( $version, $old_versions ) )
+				--$db_version;
+
+			break;
+		}
+
+		++$db_version;
+	}
+
+	return $db_version;
+}
 
 /**
  * 主题更新统计
@@ -72,7 +133,7 @@ function Bing_theme_update_statistics( $form, $to ){
 		'name'       => get_bloginfo( 'name' ),
 		'form'       => $form,
 		'to'         => $to,
-		'version'    => THEME_VERSION,
+		'version'    => wp_get_theme()->get( 'Version' ),
 		'wp_version' => $GLOBALS['wp_version'],
 		'locale'     => get_locale()
 	) ) );
@@ -93,133 +154,5 @@ function Bing_theme_update_clear_content(){
 	delete_site_transient( THEME_SLUG . '_update_content' );
 }
 add_action( 'theme_update', 'Bing_theme_update_clear_content' );
-
-/**
- * 添加主题更新版本钩子
- */
-function Bing_theme_update_versions_action( $form, $to ){
-	$versions = array(
-		'1.1',
-		'1.2',
-		'1.2.1',
-		'1.3',
-		'1.3.1',
-		'2.0',
-		'2.0.1',
-		'2.1',
-		'3.0'
-	);
-	foreach( $versions as $version ) if( version_compare( $version, $form, '>' ) ) do_action( 'theme_update_version_' . $version );
-}
-add_action( 'theme_update', 'Bing_theme_update_versions_action', 2, 2 );
-
-/**
- * 更新主题到 1.1 版本
- */
-function Bing_theme_upgrade_110(){
-	$mpanel = Bing_mpanel();
-
-	if( $mpanel->get( 'crop_thumbnail' ) === false ) $mpanel->update( 'crop_thumbnail', $mpanel->get( 'timthumb' ) );
-	$mpanel->delete( 'timthumb' );
-
-	foreach( array( 'header', 'footer', 'post_bottom' ) as $banner ){
-		$banner_id = 'banner_' . $banner;
-		$defaults = array(
-			'type'        => 'img',
-			'tab'         => true,
-			'mobile_show' => true
-		);
-		foreach( $defaults as $key => $value ){
-			$option = $banner_id . '_' . $key;
-			if( $mpanel->get( $option ) === false ) $mpanel->update( $option, $value );
-		}
-	}
-}
-add_action( 'theme_update_version_1.1', 'Bing_theme_upgrade_110' );
-
-/**
- * 更新主题到 1.2 版本
- */
-function Bing_theme_upgrade_120(){
-	$mpanel = Bing_mpanel();
-
-	foreach( array( 'progress', 'hot_searches', 'first_line_indent' ) as $option ) if( $mpanel->get( $option ) === false ) $mpanel->update( $option, true );
-
-	if( $mpanel->get( 'related_posts_number' ) === false ) $mpanel->update( 'related_posts_number', 3 );
-
-	if( $mpanel->get( 'main_color' ) === false ) $mpanel->update( 'main_color', '#237DED' );
-
-	foreach( array( 'header', 'footer', 'post_bottom' ) as $banner ){
-		$banner_id = 'banner_' . $banner;
-		if( $mpanel->get( $banner_id . '_client' ) === false ){
-			$option_value = array( 'pc' );
-			if( $mpanel->get( $banner_id . '_mobile_show' ) ) $option_value[] = 'mobile';
-			$mpanel->update( $banner_id . '_client', $option_value );
-		}
-		$mpanel->delete( $banner_id . '_mobile_show' );
-	}
-}
-add_action( 'theme_update_version_1.2', 'Bing_theme_upgrade_120' );
-
-/**
- * 更新主题到 1.3 版本
- */
-function Bing_theme_upgrade_130(){
-	$mpanel = Bing_mpanel();
-
-	foreach( array( 'return_top', 'sidebar' ) as $option ) if( $mpanel->get( $option ) === false ) $mpanel->update( $option, true );
-
-	$new_default_sidebar = sanitize_title( THEME_SLUG . '_default' );
-	$sidebars_widgets = wp_get_sidebars_widgets();
-	if( is_array( $sidebars_widgets ) && !empty( $sidebars_widgets['widget_sidebar'] ) && empty( $sidebars_widgets[$new_default_sidebar] ) ){
-		$sidebars_widgets[$new_default_sidebar] = $sidebars_widgets['widget_sidebar'];
-		unset( $sidebars_widgets['widget_sidebar'] );
-		wp_set_sidebars_widgets( $sidebars_widgets );
-	}
-}
-add_action( 'theme_update_version_1.3', 'Bing_theme_upgrade_130' );
-
-/**
- * 更新主题到 1.3.1 版本
- */
-function Bing_theme_upgrade_131(){
-	foreach( array( 'header_menu', 'footer_menu' ) as $theme_location ) delete_transient( 'nav_menu_' . $theme_location );
-}
-add_action( 'theme_update_version_1.3.1', 'Bing_theme_upgrade_131' );
-
-/**
- * 更新主题到 2.0 版本
- */
-function Bing_theme_upgrade_200(){
-	$mpanel = Bing_mpanel();
-
-	if( strtoupper( $mpanel->get( 'main_color' ) ) == '#237DED' ) $mpanel->update( 'main_color', '#2D6DCC' );
-
-	delete_transient( THEME_SLUG . '_update_content' );
-}
-add_action( 'theme_update_version_2.0', 'Bing_theme_upgrade_200' );
-
-/**
- * 更新主题到 3.0 版本
- */
-function Bing_theme_upgrade_300(){
-	$mpanel = Bing_mpanel();
-
-	$defaults = array(
-		'slider_home_number'            => 5,
-		'slider_home_page_items_number' => 1,
-		'slider_home_dots'              => true,
-		'slider_home_loop'              => true,
-		'slider_home_auto_play'         => true,
-		'slider_home_auto_play_speed'   => 5,
-		'slider_home_switch_speed'      => 250,
-		'slider_home_height'            => 260,
-		'slider_home_query'             => 'new'
-	);
-	foreach( $defaults as $option => $value ) if( $mpanel->get( $option ) === false ) $mpanel->update( $option, $value );
-
-	$mpanel->delete( 'hide_safari_bar' );
-}
-add_action( 'theme_update_version_3.0', 'Bing_theme_upgrade_300' );
 
 //End of page.

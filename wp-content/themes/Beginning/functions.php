@@ -14,6 +14,7 @@ require( get_template_directory() . '/mpanel/mpanel-panel.php' );
 //Functions
 require( get_template_directory() . '/functions/theme-functions.php' );
 require( get_template_directory() . '/functions/update.php' );
+require( get_template_directory() . '/functions/upgrade.php' );
 require( get_template_directory() . '/functions/nav-menu.php' );
 require( get_template_directory() . '/functions/statistics.php' );
 require( get_template_directory() . '/functions/thumbnail.php' );

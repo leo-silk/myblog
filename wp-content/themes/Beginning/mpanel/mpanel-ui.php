@@ -317,6 +317,15 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'default' => 3
 		) );
 
+		//文章编辑器实时预览
+		$this->item( array(
+			'name'    => __( '文章编辑器实时预览', 'Bing' ),
+			'id'      => 'editor_preview',
+			'type'    => 'checkbox',
+			'help'    => __( '在后台使用文章编辑器撰写文章的时候，可以实时预览到与前台主题一样的显示效果，方便进行排版', 'Bing' ),
+			'default' => true
+		) );
+
 	$this->end();
 
 	//头部元信息
