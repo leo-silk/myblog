@@ -3,37 +3,42 @@
  * 后台选项
  */
 
-//广告
+// 广告
 $banners = array(
 	array( 'name' => __( '头部广告', 'Bing' ),     'id' => 'header' ),
 	array( 'name' => __( '底部广告', 'Bing' ),     'id' => 'footer' ),
 	array( 'name' => __( '文章底部广告', 'Bing' ), 'id' => 'post_bottom' )
 );
 
-//基本设置
+// 基本设置
 $this->before( __( '基本设置', 'Bing' ) );
 
-	//响应式布局
+	// 响应式布局
 	$this->group( __( '响应式布局', 'Bing' ) );
 
-		//开启响应式布局
+		// 开启响应式布局
 		$responsive_show = array( 'hot_searches' );
-		foreach( $banners as $banner ) $responsive_show[] = 'banner_' . $banner['id'] . '_client';
+
+		foreach ( $banners as $banner )
+			$responsive_show[] = 'banner_' . $banner['id'] . '_client';
+
 		$this->item( array(
 			'name'    => __( '开启响应式布局', 'Bing' ),
 			'id'      => 'responsive',
 			'type'    => 'checkbox',
 			'show'    => $responsive_show,
-			'shows'   => 'custom_responsive_css',
+			'shows'   => array( 'custom_responsive_css', 'about_page' ),
 			'default' => true
 		) );
 
+		unset( $responsive_show );
+
 	$this->end();
 
-	//Logo
+	// Logo
 	$this->group( 'Logo' );
 
-		//显示图片 Logo
+		// 显示图片 Logo
 		$this->item( array(
 			'name'    => __( '显示图片 Logo', 'Bing' ),
 			'id'      => 'logo',
@@ -42,7 +47,7 @@ $this->before( __( '基本设置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//自定义 Logo
+		// 自定义 Logo
 		$this->item( array(
 			'name'    => __( '自定义 Logo', 'Bing' ),
 			'id'      => 'logo_url',
@@ -52,10 +57,10 @@ $this->before( __( '基本设置', 'Bing' ) );
 
 	$this->end();
 
-	//缩略图
+	// 缩略图
 	$this->group( __( '缩略图', 'Bing' ) );
 
-		//显示缩略图
+		// 显示缩略图
 		$this->item( array(
 			'name'    => __( '显示缩略图', 'Bing' ),
 			'id'      => 'thumbnail',
@@ -63,7 +68,7 @@ $this->before( __( '基本设置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//裁剪缩略图
+		// 裁剪缩略图
 		$this->item( array(
 			'name'    => __( '裁剪缩略图图片', 'Bing' ),
 			'id'      => 'crop_thumbnail',
@@ -74,10 +79,10 @@ $this->before( __( '基本设置', 'Bing' ) );
 
 	$this->end();
 
-	//AJAX
+	// AJAX
 	$this->group( 'AJAX' );
 
-		//AJAX 加载页面
+		// AJAX 加载页面
 		$this->item( array(
 			'name'    => __( 'AJAX 加载页面', 'Bing' ),
 			'id'      => 'ajax_load_page',
@@ -88,7 +93,7 @@ $this->before( __( '基本设置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//AJAX 提交评论
+		// AJAX 提交评论
 		$this->item( array(
 			'name'    => __( 'AJAX 提交评论', 'Bing' ),
 			'id'      => 'ajax_comment',
@@ -98,10 +103,10 @@ $this->before( __( '基本设置', 'Bing' ) );
 
 	$this->end();
 
-	//进度条
+	// 进度条
 	$this->group( __( '进度条', 'Bing' ), 'progress' );
 
-		//显示 AJAX 加载进度条
+		// 显示 AJAX 加载进度条
 		$this->item( array(
 			'name'    => __( '显示 AJAX 加载进度条', 'Bing' ),
 			'id'      => 'progress',
@@ -112,10 +117,10 @@ $this->before( __( '基本设置', 'Bing' ) );
 
 	$this->end();
 
-	//面包屑导航
+	// 面包屑导航
 	$this->group( __( '面包屑导航', 'Bing' ) );
 
-		//显示面包屑导航
+		// 显示面包屑导航
 		$this->item( array(
 			'name'    => __( '显示面包屑导航', 'Bing' ),
 			'id'      => 'breadcrumbs',
@@ -125,10 +130,10 @@ $this->before( __( '基本设置', 'Bing' ) );
 
 	$this->end();
 
-	//网站描述
+	// 网站描述
 	$this->group( __( '网站描述', 'Bing' ) );
 
-		//网站描述
+		// 网站描述
 		$this->item( array(
 			'name'        => __( '网站描述', 'Bing' ),
 			'id'          => 'site_description',
@@ -141,13 +146,13 @@ $this->before( __( '基本设置', 'Bing' ) );
 
 $this->after();
 
-//幻灯设置
+// 幻灯设置
 $this->before( __( '幻灯设置', 'Bing' ) );
 
-	//幻灯片
+	// 幻灯片
 	$this->group( __( '幻灯片', 'Bing' ) );
 
-		//开启首页幻灯片
+		// 开启首页幻灯片
 		$this->item( array(
 			'name'    => __( '开启首页幻灯片', 'Bing' ),
 			'id'      => 'slider_home',
@@ -158,10 +163,10 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 
 	$this->end();
 
-	//首页幻灯片
+	// 首页幻灯片
 	$this->group( __( '首页幻灯片', 'Bing' ), 'slider_home' );
 
-		//幻灯片数量
+		// 幻灯片数量
 		$this->item( array(
 			'name'    => __( '幻灯片数量', 'Bing' ),
 			'id'      => 'slider_home_number',
@@ -172,7 +177,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => 5
 		) );
 
-		//每页显示数量
+		// 每页显示数量
 		$this->item( array(
 			'name'    => __( '每页显示数量', 'Bing' ),
 			'id'      => 'slider_home_page_items_number',
@@ -184,7 +189,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => 1
 		) );
 
-		//显示分页按钮
+		// 显示分页按钮
 		$this->item( array(
 			'name'    => __( '显示分页按钮', 'Bing' ),
 			'id'      => 'slider_home_dots',
@@ -193,7 +198,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//循环播放
+		// 循环播放
 		$this->item( array(
 			'name'    => __( '循环播放', 'Bing' ),
 			'id'      => 'slider_home_loop',
@@ -202,7 +207,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//自动播放
+		// 自动播放
 		$this->item( array(
 			'name'    => __( '自动播放', 'Bing' ),
 			'id'      => 'slider_home_auto_play',
@@ -212,7 +217,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//自动播放速度
+		// 自动播放速度
 		$this->item( array(
 			'name'    => __( '自动播放速度', 'Bing' ),
 			'id'      => 'slider_home_auto_play_speed',
@@ -224,7 +229,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => 5
 		) );
 
-		//切换速度
+		// 切换速度
 		$this->item( array(
 			'name'    => __( '切换速度', 'Bing' ),
 			'id'      => 'slider_home_switch_speed',
@@ -236,7 +241,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => 250
 		) );
 
-		//幻灯片高度
+		// 幻灯片高度
 		$this->item( array(
 			'name'    => __( '幻灯片高度', 'Bing' ),
 			'id'      => 'slider_home_height',
@@ -247,7 +252,7 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => 260
 		) );
 
-		//内容查询
+		// 内容查询
 		$this->item( array(
 			'name'    => __( '内容查询', 'Bing' ),
 			'id'      => 'slider_home_query',
@@ -265,7 +270,11 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'default' => 'new'
 		) );
 
-		//选择分类
+		// 选择分类
+		$categories = array();
+		foreach( get_categories( 'hide_empty=0' ) as $cat )
+			$categories[$cat->cat_ID] = $cat->cat_name;
+
 		$this->item( array(
 			'name'   => __( '选择分类', 'Bing' ),
 			'id'     => 'slider_home_query_categories',
@@ -274,17 +283,19 @@ $this->before( __( '幻灯设置', 'Bing' ) );
 			'option' => $categories
 		) );
 
+		unset( $categories );
+
 	$this->end();
 
 $this->after();
 
-//优化配置
+// 优化配置
 $this->before( __( '优化配置', 'Bing' ) );
 
-	//文章
+	// 文章
 	$this->group( __( '文章', 'Bing' ) );
 
-		//阻止站内文章互相 Pingback
+		// 阻止站内文章互相 Pingback
 		$this->item( array(
 			'name'    => __( '阻止站内文章互相 Pingback', 'Bing' ),
 			'id'      => 'no_self_pingback',
@@ -292,7 +303,7 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//首行缩进两格
+		// 首行缩进两格
 		$this->item( array(
 			'name' => __( '首行缩进两格', 'Bing' ),
 			'id'   => 'first_line_indent',
@@ -300,7 +311,7 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'help' => __( '文章每个段落开头自动空两格', 'Bing' )
 		) );
 
-		//显示相关文章
+		// 显示相关文章
 		$this->item( array(
 			'name'    => __( '显示相关文章', 'Bing' ),
 			'id'      => 'related_posts',
@@ -309,7 +320,7 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//相关文章数量
+		// 相关文章数量
 		$this->item( array(
 			'name'    => __( '相关文章数量', 'Bing' ),
 			'id'      => 'related_posts_number',
@@ -317,7 +328,7 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'default' => 3
 		) );
 
-		//文章编辑器实时预览
+		// 文章编辑器实时预览
 		$this->item( array(
 			'name'    => __( '文章编辑器实时预览', 'Bing' ),
 			'id'      => 'editor_preview',
@@ -328,10 +339,10 @@ $this->before( __( '优化配置', 'Bing' ) );
 
 	$this->end();
 
-	//头部元信息
+	// 头部元信息
 	$this->group( __( '头部元信息', 'Bing' ) );
 
-		//移除头部无用信息
+		// 移除头部无用信息
 		$this->item( array(
 			'name'    => __( '移除头部无用信息', 'Bing' ),
 			'id'      => 'remove_head_refuse',
@@ -340,7 +351,7 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'help'    => __( 'WordPress 在头部输出了一些无用的信息，开启后会把他们移除', 'Bing' )
 		) );
 
-		//关闭离线编辑器接口
+		// 关闭离线编辑器接口
 		$this->item( array(
 			'name' => __( '关闭离线编辑器接口', 'Bing' ),
 			'id'   => 'remove_xmlrpc',
@@ -350,17 +361,17 @@ $this->before( __( '优化配置', 'Bing' ) );
 
 	$this->end();
 
-	//阅读
+	// 阅读
 	$this->group( __( '阅读', 'Bing' ) );
 
-		//文章内链接全部在新窗口打开
+		// 文章内链接全部在新窗口打开
 		$this->item( array(
 			'name' => __( '文章链接全部在新窗口打开', 'Bing' ),
 			'id'   => 'post_auto_blank',
 			'type' => 'checkbox'
 		) );
 
-		//文章内容外链添加 nofollow 并在新窗口打开
+		// 文章内容外链添加 nofollow 并在新窗口打开
 		$this->item( array(
 			'name'    => __( '文章外链添加 nofollow 并在新窗口打开', 'Bing' ),
 			'id'      => 'post_auto_nofollow_blank',
@@ -370,18 +381,18 @@ $this->before( __( '优化配置', 'Bing' ) );
 
 	$this->end();
 
-	//搜索
+	// 搜索
 	$this->group( __( '搜索', 'Bing' ) );
 
-		//搜索结果只包括文章
+		// 搜索结果只包括文章
 		$this->item( array(
 			'name' => __( '搜索结果只包括文章', 'Bing' ),
 			'id'   => 'search_filter_post',
 			'type' => 'checkbox',
 			'help' => __( '排除页面和其它自定义文章类型', 'Bing' )
-		) );			
+		) );
 
-		//搜索结果只有一篇文章时自动跳转到该文章
+		// 搜索结果只有一篇文章时自动跳转到该文章
 		$this->item( array(
 			'name'    => __( '搜索结果只有一篇文章时自动跳转到该文章', 'Bing' ),
 			'id'      => 'search_one_redirect',
@@ -389,7 +400,7 @@ $this->before( __( '优化配置', 'Bing' ) );
 			'default' => true
 		) );
 
-		//移动版搜索页面显示热门搜索
+		// 移动版搜索页面显示热门搜索
 		$this->item( array(
 			'name'    => __( '移动版搜索页面显示热门搜索', 'Bing' ),
 			'id'      => 'hot_searches',
@@ -400,15 +411,64 @@ $this->before( __( '优化配置', 'Bing' ) );
 
 	$this->end();
 
+	// 推荐搜索
+	$this->group( __( '推荐搜索', 'Bing' ) );
+
+		// 开启推荐搜索
+		$this->item( array(
+			'name' => __( '开启推荐搜索', 'Bing' ),
+			'id'   => 'recommend_search',
+			'type' => 'checkbox',
+			'show' => 'recommend_search_content',
+			'help' => __( '搜索框为空时，点击搜索按钮自动填充指定关键词' )
+		) );
+
+		// 推荐搜索内容
+		$this->item( array(
+			'name'        => __( '推荐搜索内容', 'Bing' ),
+			'id'          => 'recommend_search_content',
+			'type'        => 'text',
+			'placeholder' => __( '推荐用户搜索的关键词', 'Bing' )
+		) );
+
+	$this->end();
+
+	// 标题标签降级
+	$this->group( __( '标题标签降级', 'Bing' ) );
+
+		// 开启标题标签降级
+		$this->item( array(
+			'name' => __( '开启标题标签降级', 'Bing' ),
+			'id'   => 'headings_tags_downgrade',
+			'type' => 'checkbox',
+			// 'help' => __( '文章列表的标题标签降级为 `&lt;h3&gt;`，文章页的标题标签降级为 `&lt;h2&gt;`，其它页面以此类推；同时，根据页面存在的标题标签自动调整 LOGO 和网站名称的标题标签；此功能存在的主要目的为兼容旧版。' ) // @TODO HTML 标签会被转义
+			'help' => __( '文章列表的标题标签降级为 h3，文章页的标题标签降级为 h2，其它页面以此类推；同时，根据页面存在的标题标签自动调整 LOGO 和网站名称的标题标签；此功能存在的主要目的为兼容旧版。' )
+		) );
+
+	$this->end();
+
+	// 文章列表全文
+	$this->group( __( '文章列表全文', 'Bing' ) );
+
+		// 文章列表显示全文
+		$this->item( array(
+			'name' => __( '文章列表显示全文', 'Bing' ),
+			'id'   => 'full_text',
+			'type' => 'checkbox',
+			'help' => __( '在文章列表显示整篇文章，也可以在文章中使用 `<!--more-->` 标签手动分割文章，来控制首页只显示一部分内容。' )
+		) );
+
+	$this->end();
+
 $this->after();
 
-//评论系统
+// 评论系统
 $this->before( __( '评论系统', 'Bing' ) );
 
-	//垃圾评论
+	// 垃圾评论
 	$this->group( __( '垃圾评论', 'Bing' ) );
 
-		//垃圾评论拦截
+		// 垃圾评论拦截
 		$this->item( array(
 			'name' => __( '垃圾评论拦截', 'Bing' ),
 			'id'   => 'comment_anti',
@@ -416,14 +476,14 @@ $this->before( __( '评论系统', 'Bing' ) );
 			'help' => __( '拦截所有不是来自于本站评论表单的评论', 'Bing' )
 		) );
 
-		//拦截不包含中文的评论
+		// 拦截不包含中文的评论
 		$this->item( array(
 			'name' => __( '拦截不包含中文的评论', 'Bing' ),
 			'id'   => 'comment_anti_chinese',
 			'type' => 'checkbox'
 		) );
 
-		//禁止没有头像的用户评论
+		// 禁止没有头像的用户评论
 		$this->item( array(
 			'name' => __( '禁止没有头像的用户评论', 'Bing' ),
 			'id'   => 'validate_gravatar_comment',
@@ -433,10 +493,10 @@ $this->before( __( '评论系统', 'Bing' ) );
 
 	$this->end();
 
-	//评论邮件通知
+	// 评论邮件通知
 	$this->group( __( '评论邮件通知', 'Bing' ) );
 
-		//评论邮件通知
+		// 评论邮件通知
 		$this->item( array(
 			'name' => __( '评论邮件通知', 'Bing' ),
 			'id'   => 'comment_email_notify',
@@ -446,10 +506,10 @@ $this->before( __( '评论系统', 'Bing' ) );
 
 	$this->end();
 
-	//回复评论加 @
+	// 回复评论加 @
 	$this->group( __( '回复评论加 @', 'Bing' ) );
 
-		//回复评论加 @
+		// 回复评论加 @
 		$this->item( array(
 			'name'    => __( '回复评论加 @', 'Bing' ),
 			'id'      => 'comment_add_at',
@@ -460,10 +520,10 @@ $this->before( __( '评论系统', 'Bing' ) );
 
 	$this->end();
 
-	//评论链接
+	// 评论链接
 	$this->group( __( '评论链接', 'Bing' ) );
 
-		//评论作者链接新窗口打开
+		// 评论作者链接新窗口打开
 		$this->item( array(
 			'name' => __( '评论作者链接新窗口打开', 'Bing' ),
 			'id'   => 'comment_author_link_blank',
@@ -475,13 +535,26 @@ $this->before( __( '评论系统', 'Bing' ) );
 
 $this->after();
 
-//底部内容
+// 底部内容
 $this->before( __( '底部内容', 'Bing' ) );
 
-	//页脚文本区域内容
+	// 页脚菜单
+	$this->group( __( '页脚菜单', 'Bing' ) );
+
+		// 显示页脚菜单
+		$this->item( array(
+			'name'    => __( '显示页脚菜单', 'Bing' ),
+			'id'      => 'footer_menu',
+			'type'    => 'checkbox',
+			'default' => true
+		) );
+
+	$this->end();
+
+	// 页脚文本区域内容
 	$this->group( __( '页脚文本区域内容', 'Bing' ) );
 
-		//页脚文本区域内容（左）
+		// 页脚文本区域内容（左）
 		$this->item( array(
 			'name'        => __( '页脚文本区域内容（左）', 'Bing' ),
 			'id'          => 'footer_text_left',
@@ -491,22 +564,22 @@ $this->before( __( '底部内容', 'Bing' ) );
 			'help'        => __( '通常为网站版权信息；会在很多地方调用，请不要添加统计代码之类的内容', 'Bing' )
 		) );
 
-		//页脚文本区域内容（右）
+		// 页脚文本区域内容（右）
 		$this->item( array(
 			'name'        => __( '页脚文本区域内容（右）', 'Bing' ),
 			'id'          => 'footer_text_right',
 			'type'        => 'textarea',
 			'placeholder' => __( '显示在页脚右侧', 'Bing' ),
-			'default'     => 'Power by <a href="http://cn.wordpress.org" rel="external" target="_blank">WordPress</a> | Theme <a href="http://www.bgbk.org" rel="external" target="_blank">' . THEME_NAME . '</a>',
+			'default'     => 'Power by <a href="http://cn.wordpress.org" rel="external" target="_blank">WordPress</a> | Theme <a href="https://www.bgbk.org" rel="external" target="_blank">' . THEME_NAME . '</a>',
 			'help'        => __( '请不要去除版权链接', 'Bing' )
 		) );
 
 	$this->end();
 
-	//返回顶部
+	// 返回顶部
 	$this->group( __( '返回顶部', 'Bing' ) );
 
-		//显示返回顶部按钮
+		// 显示返回顶部按钮
 		$this->item( array(
 			'name'    => __( '显示返回顶部按钮', 'Bing' ),
 			'id'      => 'return_top',
@@ -516,29 +589,90 @@ $this->before( __( '底部内容', 'Bing' ) );
 
 	$this->end();
 
+	// 关于页面
+	$this->group( __( '关于页面', 'Bing' ), 'about_page' );
+
+		// 关于页面内容
+		$this->item( array(
+			'name' => __( '关于页面内容', 'Bing' ),
+			'id'   => 'about_page',
+			'type' => 'radio',
+
+			'option' => array(
+				'footer' => __( '页脚文本', 'Bing' ),
+				'custom' => __( '自定义页面', 'Bing' )
+			),
+
+			'help'    => __( '选择移动端关于页面的内容，默认显示两段页脚文本，也可以选择一个自定义页面。', 'Bing' ),
+			'show'    => array( 'custom' => 'custom_about_page' ),
+			'default' => 'footer'
+		) );
+
+		$custom_about_pages = array();
+
+		foreach ( get_pages() as $custom_about_page )
+			$custom_about_pages[$custom_about_page->ID] = get_the_title( $custom_about_page );
+
+		// 自定义关于页面
+		$this->item( array(
+			'name'    => __( '自定义关于页面', 'Bing' ),
+			'id'      => 'custom_about_page',
+			'type'    => 'select',
+			'option'  => $custom_about_pages
+		) );
+
+		unset( $custom_about_page, $custom_about_pages );
+
+	$this->end();
+
 $this->after();
 
-//边栏设置
+// 边栏设置
 $this->before( __( '边栏设置', 'Bing' ) );
 
-	//侧边栏
+	// 侧边栏
 	$this->group( __( '侧边栏', 'Bing' ) );
 
-		//显示侧边栏
+		// 显示侧边栏
 		$this->item( array(
 			'name'    => __( '显示侧边栏', 'Bing' ),
 			'id'      => 'sidebar',
 			'type'    => 'checkbox',
-			'shows'   => array( 'refresh_sidebar', 'sidebars_list', 'sidebars_location' ),
+			'shows'   => array( 'refresh_sidebar', 'sidebar_width', 'sidebars_list', 'sidebars_location' ),
 			'default' => true
 		) );
 
 	$this->end();
 
-	//侧边栏列表
+	// 侧边栏宽度
+	$this->group( __( '侧边栏宽度', 'Bing' ), 'sidebar_width' );
+
+		// 自定义侧边栏宽度
+		$this->item( array(
+			'name' => __( '自定义侧边栏宽度', 'Bing' ),
+			'id'   => 'custom_sidebar_width',
+			'show' => 'sidebar_width',
+			'help' => __( '自由选择侧边栏的宽度', 'Bing' ),
+			'type' => 'checkbox'
+		) );
+
+		// 侧边栏宽度
+		$this->item( array(
+			'name'    => __( '侧边栏宽度', 'Bing' ),
+			'id'      => 'sidebar_width',
+			'type'    => 'slider',
+			'min'     => 200,
+			'max'     => 300,
+			'unit'    => 'px',
+			'default' => 240
+		) );
+
+	$this->end();
+
+	// 侧边栏列表
 	$this->group( __( '侧边栏列表', 'Bing' ), 'sidebars_list' );
 
-		//创建侧边栏
+		// 创建侧边栏
 		$this->item( array(
 			'name' => __( '创建侧边栏', 'Bing' ),
 			'id'   => 'sidebars_list',
@@ -547,7 +681,7 @@ $this->before( __( '边栏设置', 'Bing' ) );
 
 	$this->end();
 
-	//侧边栏位置
+	// 侧边栏位置
 	$this->group( __( '侧边栏位置', 'Bing' ), 'sidebars_location' );
 
 		$sidebars = array( 'default' => __( '默认侧边栏', 'Bing' ) );
@@ -573,7 +707,15 @@ $this->before( __( '边栏设置', 'Bing' ) );
 			'option' => $sidebars
 		) );
 
-		unset( $sidebar, $pages_location, $page_location, $page_location, $category_location, $sidebars );
+		foreach ( get_pages() as $page_location )
+			$this->item( array(
+				'name'   => sprintf( __( '页面[%s]侧边栏', 'Bing' ), ( get_the_title( $page_location ) ? get_the_title( $page_location ) : $page_location->ID ) ),
+				'id'     => 'sidebar_location_page_' . $page_location->ID,
+				'type'   => 'select',
+				'option' => $sidebars
+			) );
+
+		unset( $sidebar, $pages_location, $page_location, $category_location, $sidebars );
 
 ?>
 		<script type="text/javascript">
@@ -601,21 +743,30 @@ $this->before( __( '边栏设置', 'Bing' ) );
 
 $this->after();
 
-//样式定义
+// 样式定义
 $this->before( __( '样式定义', 'Bing' ) );
 
-	//主颜色
+	// 主颜色
 	$this->group( __( '主颜色', 'Bing' ) );
 
-		//自定义主颜色
+		// 主颜色来源
 		$this->item( array(
-			'name' => __( '自定义主颜色', 'Bing' ),
-			'id'   => 'custom_main_color',
-			'type' => 'checkbox',
-			'show' => 'main_color'
+			'name' => __( '主颜色来源', 'Bing' ),
+			'id'   => 'main_color_source',
+			'type' => 'radio',
+
+			'option' => array(
+				'default' => __( '默认', 'Bing' ),
+				'custom'  => __( '自定义', 'Bing' ),
+				'rand'    => __( '每次刷新随机一种', 'Bing' )
+			),
+
+			'help'    => __( '选择一种主颜色的来源；随机颜色为 5 种系统配色随机呈现一种，要整体刷新页面才会重新分配颜色。', 'Bing' ),
+			'show'    => array( 'custom' => 'main_color' ),
+			'default' => 'default'
 		) );
 
-		//主颜色
+		// 主颜色
 		$this->item( array(
 			'name'    => __( '主颜色', 'Bing' ),
 			'id'      => 'main_color',
@@ -625,10 +776,36 @@ $this->before( __( '样式定义', 'Bing' ) );
 
 	$this->end();
 
-	//自定义全局 CSS
+	// 纯色滤镜
+	$this->group( __( '纯色滤镜', 'Bing' ) );
+
+		// 开启纯色滤镜
+		$this->item( array(
+			'name' => __( '开启纯色滤镜', 'Bing' ),
+			'id'   => 'black_white_color',
+			'help' => __( '为网站使用纯色的滤镜，背景、文字和图片等均会变成黑白色；部分浏览器无效（例如 Edge 版本以下的 IE）', 'Bing' ),
+			'type' => 'checkbox'
+		) );
+
+	$this->end();
+
+	// 大号字体
+	$this->group( __( '大号字体', 'Bing' ) );
+
+		// 使用大号字体
+		$this->item( array(
+			'name' => __( '使用大号字体', 'Bing' ),
+			'id'   => 'large_font',
+			'help' => __( '默认主题为 12px 的字体，如果你觉得太小，可以开启此选项改为 13px。', 'Bing' ),
+			'type' => 'checkbox'
+		) );
+
+	$this->end();
+
+	// 自定义全局 CSS
 	$this->group( __( '自定义全局 CSS', 'Bing' ) );
 
-		//自定义全局 CSS
+		// 自定义全局 CSS
 		$this->item( array(
 			'id'          => 'custom_css',
 			'type'        => 'bigtext',
@@ -637,10 +814,10 @@ $this->before( __( '样式定义', 'Bing' ) );
 
 	$this->end();
 
-	//自定义响应式 CSS
+	// 自定义响应式 CSS
 	$this->group( __( '自定义响应式 CSS', 'Bing' ), 'custom_responsive_css' );
 
-		//自定义响应式 CSS
+		// 自定义响应式 CSS
 		foreach( array( 1220, 1200, 1100, 1000, 900, 800, 700, 600, 500, 400 ) as $px ){
 			$this->item( array(
 				'name' => sprintf( __( '自定义响应式 CSS（%s px 以下）', 'Bing' ), $px ),
@@ -654,10 +831,10 @@ $this->before( __( '样式定义', 'Bing' ) );
 
 $this->after();
 
-//广告设置
+// 广告设置
 $this->before( __( '广告设置', 'Bing' ) );
 
-	//显示广告
+	// 显示广告
 	$this->group( __( '头部广告', 'Bing' ) );
 
 		foreach( $banners as $banner ){
@@ -672,13 +849,13 @@ $this->before( __( '广告设置', 'Bing' ) );
 
 	$this->end();
 
-	//广告
+	// 广告
 	foreach( $banners as $banner ){
 
 		$banner_id = 'banner_' . $banner['id'];
 		$this->group( $banner['name'], $banner_id );
 
-			//广告类型
+			// 广告类型
 			$this->item( array(
 				'name'    => __( '广告类型', 'Bing' ),
 				'id'      => $banner_id . '_type',
@@ -699,14 +876,14 @@ $this->before( __( '广告设置', 'Bing' ) );
 				'default' => 'img'
 			) );
 
-			//广告图片
+			// 广告图片
 			$this->item( array(
 				'name' => __( '广告图片', 'Bing' ),
 				'id'   => $banner_id . '_img',
 				'type' => 'upload'
 			) );
 
-			//提示文本
+			// 提示文本
 			$this->item( array(
 				'name'        => __( '提示文本', 'Bing' ),
 				'id'          => $banner_id . '_alt',
@@ -715,7 +892,7 @@ $this->before( __( '广告设置', 'Bing' ) );
 				'help'        => __( '鼠标停留到广告图片时显示的文本', 'Bing' )
 			) );
 
-			//广告链接
+			// 广告链接
 			$this->item( array(
 				'name'        => __( '广告链接', 'Bing' ),
 				'id'          => $banner_id . '_url',
@@ -724,7 +901,7 @@ $this->before( __( '广告设置', 'Bing' ) );
 				'help'        => __( '广告的链接地址', 'Bing' )
 			) );
 
-			//在新窗口打开链接
+			// 在新窗口打开链接
 			$this->item( array(
 				'name'    => __( '在新窗口打开链接', 'Bing' ),
 				'id'      => $banner_id . '_tab',
@@ -732,14 +909,14 @@ $this->before( __( '广告设置', 'Bing' ) );
 				'default' => true
 			) );
 
-			//自定义广告代码
+			// 自定义广告代码
 			$this->item( array(
 				'name' => __( '自定义广告代码', 'Bing' ),
 				'id'   => $banner_id . '_code',
 				'type' => 'textarea'
 			) );
 
-			//自动下架
+			// 自动下架
 			$this->item( array(
 				'name'        => __( '自动下架', 'Bing' ),
 				'id'          => $banner_id . '_hide_date',
@@ -748,7 +925,7 @@ $this->before( __( '广告设置', 'Bing' ) );
 				'help'        => __( '到此日期时自动不显示广告', 'Bing' )
 			) );
 
-			//适用平台
+			// 适用平台
 			$this->item( array(
 				'name'    => __( '适用平台', 'Bing' ),
 				'id'      => $banner_id . '_client',
@@ -768,13 +945,13 @@ $this->before( __( '广告设置', 'Bing' ) );
 
 $this->after();
 
-//高级功能
+// 高级功能
 $this->before( __( '高级功能', 'Bing' ) );
 
-	//头像缓存
+	// 头像缓存
 	$this->group( __( '头像缓存', 'Bing' ) );
 
-		//头像缓存
+		// 头像缓存
 		$this->item( array(
 			'name' => __( '头像缓存', 'Bing' ),
 			'id'   => 'avatar_cache',
@@ -783,7 +960,7 @@ $this->before( __( '高级功能', 'Bing' ) );
 			'show' => 'avatar_cache_day'
 		) );
 
-		//缓存天数
+		// 缓存天数
 		$this->item( array(
 			'name'    => __( '缓存天数', 'Bing' ),
 			'id'      => 'avatar_cache_day',
@@ -794,16 +971,34 @@ $this->before( __( '高级功能', 'Bing' ) );
 
 	$this->end();
 
-	//自定义头部代码
+	// 镜像防火墙
+	$this->group( __( '镜像防火墙', 'Bing' ) );
+
+		// 开启镜像防火墙
+		$this->item( array(
+			'name' => __( '开启镜像防火墙', 'Bing' ),
+			'id'   => 'image_firewall',
+			'type' => 'checkbox'
+		) );
+
+		// 镜像防火墙帮助
+		$this->item( array(
+			'name' => __( '镜像防火墙并不像名字一样能够防止网站被镜像，只能是在用户访问镜像网站时检测域名，如果不是我们的域名则自动跳转回来，所以此功能需要 JavaScript 的支持，请不要给 JavaScript 文件设置防盗链功能。', 'Bing' ),
+			'type' => 'help'
+		) );
+
+	$this->end();
+
+	// 自定义头部代码
 	$this->group( __( '自定义头部代码', 'Bing' ) );
 
-		//自定义头部代码
+		// 自定义头部代码
 		$this->item( array(
 			'id' => 'head_code',
 			'type' => 'bigtext'
 		) );
 
-		//头部代码帮助
+		// 头部代码帮助
 		$this->item( array(
 			'name' => __( '这段代码会被添加到前台的 &lt;head&gt; 标签里边，可以引入一些 CSS、放置统计代码。', 'Bing' ),
 			'type' => 'help'
@@ -811,16 +1006,16 @@ $this->before( __( '高级功能', 'Bing' ) );
 
 	$this->end();
 
-	//自定义底部代码
+	// 自定义底部代码
 	$this->group( __( '自定义底部代码', 'Bing' ) );
 
-		//自定义底部代码
+		// 自定义底部代码
 		$this->item( array(
 			'id'   => 'footer_code',
 			'type' => 'bigtext'
 		) );
 
-		//页脚代码帮助
+		// 页脚代码帮助
 		$this->item( array(
 			'name' => __( '这段代码会被添加到前台的底部 &lt;/body&gt; 标签之前，可以放置统计代码、引入一些 JS。', 'Bing' ),
 			'type' => 'help'
@@ -828,16 +1023,16 @@ $this->before( __( '高级功能', 'Bing' ) );
 
 	$this->end();
 
-	//导出设置
+	// 导出设置
 	$this->group( __( '导出设置', 'Bing' ) );
 
-		//自定义导出设置头部代码
+		// 自定义导出设置头部代码
 		$this->item( array(
 			'id'   => 'export',
 			'type' => 'bigtext'
 		) );
 
-		//导出设置帮助
+		// 导出设置帮助
 		$this->item( array(
 			'name' => __( '保存这个文本框的代码即可备份设置，把代码填入下边的文本框就能恢复设置。', 'Bing' ),
 			'type' => 'help'
@@ -845,10 +1040,10 @@ $this->before( __( '高级功能', 'Bing' ) );
 
 	$this->end();
 
-	//导入设置
+	// 导入设置
 	$this->group( __( '导入设置', 'Bing' ) );
 
-		//导入设置
+		// 导入设置
 		$this->item( array(
 			'id'          => 'import',
 			'type'        => 'bigtext',
@@ -859,4 +1054,4 @@ $this->before( __( '高级功能', 'Bing' ) );
 
 $this->after();
 
-//End of page.
+// End of page.

@@ -1,6 +1,6 @@
 /**
 	*mpanel JavaScript
-	*http://www.bgbk.org
+	*https://www.bgbk.org
 */
 (function( $, args ){
 

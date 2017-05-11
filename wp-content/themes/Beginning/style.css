@@ -1,11 +1,13 @@
 @charset "utf-8";
 /**
  * Theme Name: Beginning
- * Theme URI: http://www.bgbk.org/wp-theme-beginning/
- * Description: The template by <a href="http://www.bgbk.org">斌果</a>.
- * Author: 斌果
- * Author URI: http://www.bgbk.org
- * Version: 3.1.1
+ * Theme URI:  https://www.bgbk.org/wp-theme-beginning/
+ *
+ * Description: The template by <a href="https://www.bgbk.org">斌果</a>.
+ * Version:     4.1
+ *
+ * Author:     斌果
+ * Author URI: https://www.bgbk.org
  */
 
 /*----------------------------------------------------------
@@ -25,9 +27,6 @@ body,
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
 }
 
 html,
@@ -649,6 +648,14 @@ select:hover {
 #header .search-form .search-text {
 	float: left;
 	border-right: none;
+	transition: width .5s;
+	-webkit-transition: width .5s;
+	-moz-transition: width .5s;
+	-o-transition: width .5s;
+}
+
+#header .search-form .search-text:focus {
+	width: 200px;
 }
 
 #header .search-form .search-submit {
@@ -847,6 +854,11 @@ select:hover {
 	-ms-text-overflow: ellipsis;
 	text-overflow: ellipsis;
 	width: 100%;
+}
+
+.posts-list.full-text > li .post-title {
+	border-left: 5px solid #2D6DCC;
+	margin: 0 -5px -1px;
 }
 
 .posts-list > li .thumbnail-link {
@@ -1147,10 +1159,9 @@ select:hover {
 	text-decoration: underline;
 }
 
-.context div,
-.context form,
-.context pre,
-.context code {
+.context > div,
+.context > form,
+.context > pre {
 	margin-bottom: 10px;
 }
 
@@ -1172,16 +1183,19 @@ select:hover {
 
 .context h2 {
 	font-size: 20px;
-	line-height: 30px;
-	font-weight: bold;
-}
-
-.context h3 {
+	line-height: 40px;
 	margin: 0 -15px 10px;
 	padding: 0 15px;
 	border-bottom: none;
+	background: #FAFAFA;
+}
+
+.context h3 {
 	font-size: 18px;
 	line-height: 38px;
+	margin: 0 -15px 10px;
+	padding: 0 15px;
+	border-bottom: none;
 	background: #FAFAFA;
 }
 
@@ -1319,6 +1333,17 @@ select:hover {
 
 .context table tr td:last-child {
 	border-right: none;
+}
+
+.context pre {
+	font: inherit;
+	font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
+	line-height: 18px;
+	border: 1px solid #E6E6EB;
+	background: #FAFAFA;
+	padding: 5px 10px;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .context > *:last-child {
@@ -1597,8 +1622,34 @@ select:hover {
 /*----------------------------------------------------------
 	Breadcrumb
 ----------------------------------------------------------*/
-.breadcrumb .separator {
+.breadcrumb {
+	display: inline-block;
+}
+
+.breadcrumb li {
+	display: inline-block;
+}
+
+.breadcrumb li:after,
+.breadcrumb li.home a:before {
+	content: '\f345';
+	display: inline-block;
+	font-family: dashicons;
+	text-decoration: inherit;
+	font-weight: 400;
+	font-style: normal;
+	vertical-align: top;
+	text-align: center;
 	padding: 0 3px;
+}
+
+.breadcrumb li:last-child:after {
+	display: none;
+}
+
+.breadcrumb li.home a:before {
+	content: '\f102';
+	padding: 0;
 }
 
 /*----------------------------------------------------------
@@ -2569,4 +2620,78 @@ select:hover {
 .hot-searches-list > li a {
 	color: #2D6DCC;
 	font-size: 14px;
+}
+
+#mobile-categories li a {
+	display: block;
+	padding: 10px;
+	font-size: 14px;
+	border-bottom: 1px solid #E6E6EB;
+}
+
+#mobile-categories li a:last-child {
+	border-bottom: none;
+}
+
+#mobile-categories > li:nth-child( even ) {
+	background: #FAFAFA;
+}
+
+#mobile-categories > li li a {
+	padding-left: 0;
+}
+
+#mobile-categories ul {
+	padding-left: 20px;
+}
+
+#mobile-categories .cat-item-none {
+	font-size: 14px;
+	padding: 10px;
+}
+
+/**
+ * Links page.
+ *
+ * @since Beginning 4.1.0
+ */
+.links-list li {
+	list-style: none;
+}
+
+.links-list .link-box {
+	display: block;
+	background: #FAFAFA;
+	color: #333;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.links-list .link-box:hover {
+	text-decoration: none;
+	opacity: .9;
+}
+
+.links-list .link-title {
+	background: #2D6DCC;
+	color: #fff;
+	line-height: 30px;
+	font-size: 14px;
+	padding: 0 8px;
+}
+
+.links-list .link-favicon {
+	border: none;
+	margin-bottom: 0;
+	padding: 0;
+	display: inline-block;
+	margin-right: 5px;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+}
+
+.links-list .link-description {
+	display: block;
+	padding: 6px 8px;
 }

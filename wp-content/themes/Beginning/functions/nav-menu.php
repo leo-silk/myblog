@@ -47,13 +47,19 @@ function Bing_not_set_menu_fallback( $args ){
 			'name' => __( '⊕添加菜单', 'Bing' )
 		)
 	);
+
 	$code = '<ul id="' . esc_attr( $args['theme_location'] ) . '">';
-		foreach( $menus as $menu ){
+
+		foreach ( $menus as $menu ) {
 			$current_clsss = isset( $menu['current'] ) && $menu['current'] ? 'current-menu-item"' : '';
 			$code .= sprintf( '<li class="%s"><a href="%s">%s</a></li>', $current_clsss, esc_url( $menu['url'] ), $menu['name'] );
 		}
+
 	$code .= '</ul>';
-	if( !$args['echo'] ) return $code;
+
+	if ( !$args['echo'] )
+		return $code;
+
 	echo $code;
 }
 

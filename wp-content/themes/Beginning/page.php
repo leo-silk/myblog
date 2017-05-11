@@ -6,11 +6,15 @@
 				<div class="panel">
 					<header class="panel-header">
 						<div class="post-meta-box">
-							<?php if( Bing_mpanel( 'breadcrumbs' ) ) Bing_breadcrumbs( '<span class="separator dashicons dashicons-arrow-right-alt2"></span>', '<span class="breadcrumb"%s>', '</span>', '<span class="dashicons dashicons-admin-home"></span>' . __( '首页', 'Bing' ) ); ?>
-							<?php Bing_post_meta( 'comments' ); ?>
+							<?php
+							if ( Bing_mpanel( 'breadcrumbs' ) )
+								Bing_Breadcrumbs::output();
+
+							Bing_post_meta( 'comments' );
+							?>
 						</div>
 						<?php
-						the_title( '<h2 class="post-title">', '</h2>' );
+						the_title( '<' . Bing_get_page_title_tag() . ' class="post-title">', '</' . Bing_get_page_title_tag() . '>' );
 						edit_post_link( '<span class="dashicons dashicons-edit"></span>' . __( '编辑', 'Bing' ), '<span class="right">', '</span>' );
 						?>
 					</header>

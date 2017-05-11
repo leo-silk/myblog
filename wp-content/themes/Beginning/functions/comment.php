@@ -163,63 +163,6 @@ function Bing_comment_add_at( $comment_text, $comment = null ){
 add_filter( 'comment_text' , 'Bing_comment_add_at', 18, 2 );
 
 /**
- * WordPress 代码阻止绝大多数垃圾评论
- *
- * @see http://www.endskin.com/anti-spa/
- */
-class Bing_anti_spam{
-
-	//垃圾评论判断
-	public $spam = false;
-
-	//实例化
-	static function init(){
-		if( Bing_mpanel( 'comment_anti' ) && !is_user_logged_in() ) new self;
-	}
-
-	//初始化
-	function __construct(){
-		$this->check();
-		add_filter( 'comment_form_field_comment', array( $this, 'change_form' ), 16 );
-		add_filter( 'pre_comment_approved', array( $this, 'check_comment' ), 10, 2 );
-	}
-
-	//过滤数据
-	function check(){
-		if( !isset( $_POST['comment'] ) ) return;
-		if( isset( $_POST['person-comment'] ) ){
-			$_POST['comment'] = $_POST['person-comment'];
-			unset( $_POST['person-comment'] );
-			$_REQUEST = array_merge( $_GET, $_POST );
-		}else $this->spam = true;
-	}
-
-	//修改评论表单
-	function change_form( $comment_field ){
-		$search = array(
-			'name="comment"',
-			'</textarea>'
-		);
-		$replace = array(
-			'name="person-comment"',
-			'</textarea><textarea name="comment" style="display:none"></textarea>'
-		);
-		return str_replace( $search, $replace, $comment_field );
-	}
-
-	//检测机器人评论
-	function check_comment( $approved, $comment ){
-		if( $this->spam ){
-			if( in_array( $comment['comment_type'], array( 'pingback', 'trackback' ) ) ) return $comment;
-			wp_die( __( '检测为机器人评论，请在网站评论表单处提交您的评论', 'Bing' ) );
-		}
-		return $approved;
-	}
-
-}
-add_action( 'init', array( 'Bing_anti_spam', 'init' ) );
-
-/**
  * WordPress 禁止不包含中文的评论
  *
  * @see http://www.endskin.com/spam-cinese-comment/
@@ -233,7 +176,7 @@ add_filter( 'preprocess_comment', 'Bing_spam_chinese_comment' );
 /**
  * 禁止没有头像的用户评论
  *
- * @see http://www.endskin.co/validate-gravatar-comment/
+ * @link http://www.endskin.co/validate-gravatar-comment/
  */
 function Bing_validate_gravatar_comment( $comment ){
 	if( !Bing_mpanel( 'validate_gravatar_comment' ) ) return $comment;

@@ -246,7 +246,7 @@
 	width: 100%;
 	height: 88px;
 	float: left;
-	resize: none;
+	resize: vertical;
 }
 
 .mpanel-form-table input[type="text"],

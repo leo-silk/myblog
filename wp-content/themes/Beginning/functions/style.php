@@ -3,9 +3,13 @@
  * 生成样式表
  */
 function Bing_style(){
-	if( !has_action( 'css' ) ) return;
+	if( !has_action( 'css' ) )
+		return;
+
 	echo '<style id="theme-css">';
+
 		do_action( 'css' );
+
 	echo '</style>';
 }
 add_action( 'wp_head', 'Bing_style', 12 );
@@ -17,9 +21,12 @@ add_action( 'wp_head', 'Bing_style', 12 );
  */
 function Bing_editor_style(){
 	header( 'Content-type: text/css' );
+
 	ob_start();
+
 		readfile( get_template_directory() . '/css/editor-style.css' );
 		do_action( 'editor_css' );
+
 	wp_die( ob_get_clean() );
 }
 add_action( 'wp_ajax_theme_editor_style', 'Bing_editor_style' );
@@ -30,68 +37,32 @@ add_action( 'wp_ajax_nopriv_theme_editor_style', 'Bing_editor_style' );
  */
 function Bing_print_css( $selector, $style, $width = null ){
 	$code = implode( ',', (array) $selector ) . '{';
-		foreach( $style as $key => $value ) $code .= "$key: $value;";
+
+		foreach( $style as $key => $value )
+			$code .= "$key: $value;";
+
 	$code .= '}';
-	if( !empty( $width ) ) $code = '@media screen and (max-width:' . $width . 'px){' . $code . '}';
+
+	if( !empty( $width ) )
+		$code = '@media screen and (max-width:' . $width . 'px){' . $code . '}';
+
 	echo $code;
 }
 
 /**
- * Logo 配置
+ * 输出设置主颜色的 CSS 代码
+ *
+ * @since Beginning 4.0.0
  */
-function Bing_logo_style(){
-	if( Bing_mpanel( 'logo' ) ){
-		$url = Bing_mpanel( 'logo_url' );
-		if( !empty( $url ) ) Bing_print_css( '#header .logo a', array( 'background-image' => 'url(' . esc_url( $url ) . ')' ) );
-	}else{
-		$css = array(
-			'background-image' => 'none',
-			'text-indent'      => 0,
-			'width'            => 'auto'
-		);
-		Bing_print_css( '#header .logo a', $css );
-	}
-}
-add_action( 'css', 'Bing_logo_style' );
+function Bing_set_main_color( $color ) {
+	if ( empty( $color ) )
+		return false;
 
-/**
- * 首行缩进两格
- */
-function Bing_first_line_indent_style(){
-	if( Bing_mpanel( 'first_line_indent' ) ) Bing_print_css( '#post-box.type-post .context p', array( 'text-indent' => '2em' ) );
-}
-add_action( 'css', 'Bing_first_line_indent_style' );
-
-/*
- * 用户自定义 CSS
- */
-function Bing_custom_css(){
-	echo Bing_mpanel( 'custom_css' );
-}
-add_action( 'css', 'Bing_custom_css', 12 );
-
-/*
- * 用户自定义响应式 CSS
- */
-function Bing_custom_responsive_css(){
-	if( !Bing_mpanel( 'responsive' ) ) return;
-	foreach( array( 1220, 1200, 1100, 1000, 900, 800, 700, 600, 500, 400 ) as $px ){
-		$css = Bing_mpanel( 'custom_responsive_css_' . $px );
-		if( !empty( $css ) ) echo '@media screen and (max-width:' . $px . 'px){' . $css . '}';
-	}
-}
-add_action( 'css', 'Bing_custom_responsive_css', 14 );
-
-/*
- * 设置主颜色
- */
-function Bing_main_color(){
-	if( !Bing_mpanel( 'custom_main_color' ) || !$color = Bing_mpanel( 'main_color' ) ) return;
 	Bing_print_css( array(
 		'a:hover',
 
 		/**
-		 * @deprecated 2.0
+		 * @deprecated Beginning 2.0.0
 		 *
 		 * '#header .logo a:hover',
 		 * '#header_menu > li:hover > a',
@@ -136,10 +107,11 @@ function Bing_main_color(){
 		'.hot-searches-list > li a',
 
 		/**
-		 * @since 3.0
+		 * @since Beginning 3.0.0
 		 */
 		'.slider .slider-text > .post-title'
 	), array( 'color' => $color ) );
+
 	Bing_print_css( array(
 		'input[type=text]:focus',
 		'input[type=text]:hover:focus',
@@ -170,12 +142,22 @@ function Bing_main_color(){
 		'#header_menu > li > .sub-menu > li',
 
 		/**
-		 * @since 1.3
+		 * @since Beginning 1.3.0
 		 */
 		'#post-box .post-title',
-		'#post-box .post-meta-box .post-meta > li:hover'
+		'#post-box .post-meta-box .post-meta > li:hover',
+
+		/**
+		 * @since Beginning 4.0.1
+		 */
+		'.posts-list > li .post-title'
 	), array( 'border-color' => $color ) );
-	Bing_print_css( '#nprogress .spinner-icon', array( 'border-top-color' => $color, 'border-left-color' => $color ) );
+
+	Bing_print_css( '#nprogress .spinner-icon', array(
+		'border-top-color'  => $color,
+		'border-left-color' => $color
+	) );
+
 	Bing_print_css( array(
 		'input[type=submit]',
 		'button',
@@ -187,25 +169,31 @@ function Bing_main_color(){
 		'#nprogress .bar',
 
 		/**
-		 * @since 1.2.1
+		 * @since Beginning 1.2.1
 		 */
 		'#post-box .post-meta-box .post-meta > li:hover',
 
 		/**
-		 * @since 1.3
+		 * @since Beginning 1.3.0
 		 */
 		'#return-top',
 
 		/**
-		 * @since 2.0
+		 * @since Beginning 2.0.0
 		 */
 		'#header',
 
 		/**
-		 * @since 3.0
+		 * @since Beginning 3.0.0
 		 */
-		'.slider .slider-dots > .dot.active'
+		'.slider .slider-dots > .dot.active',
+
+		/**
+		 * @since Beginning 4.1.0
+		 */
+		'.links-list .link-title'
 	), array( 'background-color' => $color ) );
+
 	Bing_print_css( array(
 		'.posts-list > li .thumbnail-link .thumbnail:hover',
 		'.related-posts > li .related-posts-panel:hover',
@@ -213,10 +201,104 @@ function Bing_main_color(){
 		'.comments-list > li:hover',
 		'.sidebar-posts-list > li:hover',
 		'.widget_recent_comments li:hover'
-	), array( 'box-shadow' => '0 0 2px ' . $color, '-moz-box-shadow' => '0 0 2px ' . $color ) );
-	Bing_print_css( '#nprogress .peg', array( 'box-shadow' => '0 0 10px ' . $color . ', 0 0 5px ' . $color, '-moz-box-shadow' => '0 0 10px ' . $color . ', 0 0 5px ' . $color ) );
+	), array(
+		'box-shadow'      => '0 0 2px ' . $color,
+		'-moz-box-shadow' => '0 0 2px ' . $color
+	) );
 
-	do_action( 'theme_main_color' );
+	Bing_print_css( '#nprogress .peg', array(
+		'box-shadow'      => '0 0 10px ' . $color . ', 0 0 5px ' . $color,
+		'-moz-box-shadow' => '0 0 10px ' . $color . ', 0 0 5px ' . $color
+	) );
+
+	do_action( 'theme_main_color', $color );
+
+	return true;
+}
+
+/**
+ * Logo 配置
+ */
+function Bing_logo_style(){
+	if( Bing_mpanel( 'logo' ) )
+		if( $url = Bing_mpanel( 'logo_url' ) )
+			$css = array( 'background-image' => 'url(' . esc_url_raw( $url ) . ')' );
+		else
+			return;
+	else
+		$css = array(
+			'background-image' => 'none',
+			'text-indent'      => 0,
+			'font-weight'      => 'bold', // @since Beginning 4.0.0
+			'width'            => 'auto'
+		);
+
+	Bing_print_css( '#header .logo a', $css );
+}
+add_action( 'css', 'Bing_logo_style' );
+
+/**
+ * 首行缩进两格
+ */
+function Bing_first_line_indent_style(){
+	if( Bing_mpanel( 'first_line_indent' ) )
+		Bing_print_css( '#post-box.type-post .context p', array( 'text-indent' => '2em' ) );
+}
+add_action( 'css', 'Bing_first_line_indent_style' );
+
+/**
+ * 用户自定义 CSS
+ */
+function Bing_custom_css(){
+	echo Bing_mpanel( 'custom_css' );
+}
+add_action( 'css', 'Bing_custom_css', 12 );
+
+/**
+ * 用户自定义响应式 CSS
+ */
+function Bing_custom_responsive_css(){
+	if( !Bing_mpanel( 'responsive' ) )
+		return;
+
+	foreach( array( 1220, 1200, 1100, 1000, 900, 800, 700, 600, 500, 400 ) as $px ){
+		$css = Bing_mpanel( 'custom_responsive_css_' . $px );
+
+		if( !empty( $css ) )
+			echo '@media screen and (max-width:' . $px . 'px){' . $css . '}';
+	}
+}
+add_action( 'css', 'Bing_custom_responsive_css', 14 );
+
+/**
+ * 设置主颜色
+ */
+function Bing_main_color() {
+	switch ( Bing_mpanel( 'main_color_source' ) ) {
+		case 'custom' :
+			$color = Bing_mpanel( 'main_color' );
+			break;
+		case 'rand' :
+			static $rand_color;
+
+			if ( !isset( $rand_color ) ) {
+				$all_colors = array(
+					'#24BEBE',
+					'#1BB565',
+					'#5EAAD1',
+					'#FF6A00',
+					'#2D6DCC'
+				);
+
+				$rand_key   = array_rand( $all_colors );
+				$rand_color = $all_colors[$rand_key];
+			}
+
+			$color = $rand_color;
+	}
+
+	if ( !empty( $color ) )
+		Bing_set_main_color( $color );
 }
 add_action( 'css', 'Bing_main_color' );
 
@@ -224,7 +306,8 @@ add_action( 'css', 'Bing_main_color' );
  * 编辑器首行缩进两格
  */
 function Bing_editor_first_line_indent(){
-	if( Bing_mpanel( 'first_line_indent' ) ) Bing_print_css( '#tinymce.post-type-post p', array( 'text-indent' => '2em' ) );
+	if( Bing_mpanel( 'first_line_indent' ) )
+		Bing_print_css( '#tinymce.post-type-post p', array( 'text-indent' => '2em' ) );
 }
 add_action( 'editor_css', 'Bing_editor_first_line_indent' );
 
@@ -232,8 +315,11 @@ add_action( 'editor_css', 'Bing_editor_first_line_indent' );
  * 编辑器设置主颜色
  */
 function Bing_editor_main_color(){
-	if( !Bing_mpanel( 'custom_main_color' ) || !$color = Bing_mpanel( 'main_color' ) ) return;
+	if( !Bing_mpanel( 'custom_main_color' ) || !$color = Bing_mpanel( 'main_color' ) )
+		return;
+
 	Bing_print_css( '#tinymce a', array( 'color' => $color ) );
+
 	Bing_print_css( '#tinymce img:hover', array(
 		'border-color'    => $color,
 		'box-shadow'      => '0 0 2px ' . $color,
@@ -242,4 +328,59 @@ function Bing_editor_main_color(){
 }
 add_action( 'editor_css', 'Bing_editor_main_color' );
 
-//End of page.
+/**
+ * 添加纯色滤镜
+ */
+function Bing_black_white_color(){
+	if( Bing_mpanel( 'black_white_color' ) )
+		Bing_print_css( 'body', array(
+			        'filter' => 'grayscale( 100% )',
+			'-webkit-filter' => 'grayscale( 100% )',
+			   '-moz-filter' => 'grayscale( 100% )',
+			    '-ms-filter' => 'grayscale( 100% )',
+			     '-o-filter' => 'grayscale( 100% )'
+		) );
+}
+add_action( 'css', 'Bing_black_white_color' );
+
+/**
+ * 删除页脚菜单显示区域
+ */
+function Bing_remove_footer_menu_box(){
+	if( !Bing_mpanel( 'footer_menu' ) )
+		Bing_print_css( '#footer', array( 'border-top' => 'none' ) );
+}
+add_action( 'css', 'Bing_remove_footer_menu_box' );
+
+/**
+ * 自定义侧边栏宽度
+ */
+function Bing_sidebar_width() {
+	if ( Bing_mpanel( 'sidebar' ) && Bing_mpanel( 'custom_sidebar_width' ) && $width = Bing_mpanel( 'sidebar_width' ) )
+		Bing_print_css( '#sidebar', array( 'width' => $width . 'px' ) );
+}
+add_action( 'css', 'Bing_sidebar_width' );
+
+/**
+ * 使用大号字体
+ *
+ * @see Beginning 4.0
+ */
+function Bing_large_font() {
+	if ( Bing_mpanel( 'large_font' ) )
+		Bing_print_css( 'body', array( 'font-size' => '13px' ) );
+}
+add_action( 'css', 'Bing_large_font' );
+
+/**
+ * 关闭侧边栏
+ *
+ * @see Beginning 4.0.2
+ */
+function Bing_close_sidebar() {
+	if ( !Bing_mpanel( 'sidebar' ) )
+		Bing_print_css( '#container > .row', array( 'padding-right' => '0' ) );
+}
+add_action( 'css', 'Bing_close_sidebar' );
+
+// End of page.

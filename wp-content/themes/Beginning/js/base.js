@@ -1,7 +1,7 @@
 /**
  * Base JavaScript
  *
- * @link http://www.bgbk.org
+ * @link https://www.bgbk.org
  */
 ( function( $, document, window, args ){
 
@@ -21,6 +21,31 @@
 		} );
 	}
 	$( slider_init );
+
+	/**
+	 * 镜像防火墙
+	 */
+	( function() {
+		if ( !args.imageFirewall )
+			return;
+
+		if ( args.imageFirewall === window.location.hostname )
+			return;
+
+		var parser = $( '<a />' ).attr( 'href', window.location.href )[0];
+
+		parser.hostname = args.imageFirewall;
+		window.location.href = parser.href;
+	} )();
+
+	//推荐搜索
+	$( document ).on( 'submit', '.search-form', function(){
+		var $text     = $( this ).find( '.search-text' ),
+			recommend = $text.data( 'recommend-search' );
+
+		if ( !$text.val() && recommend )
+			$text.val( recommend );
+	} );
 
 	//显示文章标签
 	$( document ).on( 'click', '#post-box .post-meta-box .post-meta > .tags', function(){
@@ -52,7 +77,7 @@
 		$( '#commentform .comment-form-smiley .smiley-box' ).slideUp();
 	} );
 
-	$( document ).on( 'click', '#commentform .comment-form-smiley .smiley-box', function(){
+	$( document ).on( 'click', '#commentform .comment-form-smiley .smiley-box', function( e ){
 		if( !is_mobile() ) e.stopPropagation();
 	} )
 
@@ -323,6 +348,19 @@
 					if( data.mobile_menu_current ) set_mobile_menu_current( data.mobile_menu_current );
 					$( '#mobile-header .mobile-title' ).html( data.mobile_title );
 					data.mobile_return_show ? $( '#mobile-header .mobile-return' ).addClass( 'show' ) : $( '#mobile-header .mobile-return' ).removeClass( 'show' );
+
+					// 兼容 SyntaxHighlighter 插件
+					if ( window.SyntaxHighlighter )
+						SyntaxHighlighter.highlight();
+
+					// 兼容 Crayon Syntax Highlighter 插件
+					if ( window.CrayonSyntax )
+						CrayonSyntax.init();
+
+					// 兼容 Hermit 音乐播放器
+					if ( window.hermitjs )
+						hermitjs.reload( 0 );
+
 					history.pushState( get_state(), data.title, url );
 					goto_hash_element();
 					progress( 'inc' );

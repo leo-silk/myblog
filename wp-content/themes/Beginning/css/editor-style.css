@@ -1,7 +1,7 @@
 @charset "utf-8";
 /**
  * Editor
- * @link http://www.bgbk.org
+ * @link https://www.bgbk.org
  */
 
 /*----------------------------------------------------------
@@ -62,16 +62,19 @@ body,
 
 #tinymce h2 {
 	font-size: 20px;
-	line-height: 30px;
-	font-weight: bold;
-}
-
-#tinymce h3 {
+	line-height: 40px;
 	margin: 0 -15px 10px;
 	padding: 0 15px;
 	border-bottom: none;
+	background: #FAFAFA;
+}
+
+#tinymce h3 {
 	font-size: 18px;
 	line-height: 38px;
+	margin: 0 -15px 10px;
+	padding: 0 15px;
+	border-bottom: none;
 	background: #FAFAFA;
 }
 
@@ -210,6 +213,17 @@ body,
 
 #tinymce table tr td:last-child {
 	border-right: none;
+}
+
+#tinymce pre {
+	font: inherit;
+	font-family: Consolas, Monaco, 'Courier New', Courier, monospace;
+	line-height: 18px;
+	border: 1px solid #E6E6EB;
+	background: #FAFAFA;
+	padding: 5px 10px;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 #tinymce > *:last-child {
